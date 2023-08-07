@@ -1,6 +1,6 @@
 # React Map Application
 
-![Map App picture](https://github.com/canattmaca/MapApp/blob/main/build/Map%20App.png)
+![Map App picture](https://github.com/canattmaca/MapApp/blob/main/server/build/Map%20App.png)
 
 ## Description
 
@@ -15,6 +15,7 @@ Node.js and npm should be installed.
 1. Download or clone the project files to your computer.
 2. Navigate to the downloaded project folder through the terminal.
 3. Go to the server folder and install the required dependencies by running the following command: <br/>
+   . cd server <br/>
    . npm install
 4. Start the project from the client folder by running the following command: <br/>
    . npm start

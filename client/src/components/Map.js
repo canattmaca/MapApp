@@ -20,16 +20,21 @@ const Map = () => {
   const [downloadData, setDownloadData] = useState(null);
   const [points, setPoints] = useState(null);
 
+  // Required command to reach point-position
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.flyTo(position, 10);
     }
   }, [position]);
 
+  const handleMarkerPoint = ({ lat, lng }) => {
+    setPosition([lat, lng]);
+  };
+
+  // Required command to reach data
   useEffect(() => {
     fetchData();
   }, []);
-
   const fetchData = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/api/data`);
@@ -46,6 +51,7 @@ const Map = () => {
     }
   };
 
+  // function to wait for map center
   const getMapCenter = () => {
     if (mapRef.current) {
       const map = mapRef.current;
@@ -55,6 +61,7 @@ const Map = () => {
     }
   };
 
+  // required function to delete point
   const handleDeletePoint = (index) => {
     if (points !== null) {
       const newPoints = [...points];
@@ -76,10 +83,6 @@ const Map = () => {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
     }
-  };
-
-  const handleMarkerPoint = ({ lat, lng }) => {
-    setPosition([lat, lng]);
   };
 
   return (
