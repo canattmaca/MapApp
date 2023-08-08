@@ -62,8 +62,8 @@ const Map = () => {
       const [lat, lng] = Object.values(center);
 
       const newPoint = {
-        lat: lat,
-        lng: lng,
+        lat: parseFloat(lat).toFixed(5),
+        lng: parseFloat(lng).toFixed(5),
         datetime: format(new Date(), "dd.MM.yyyy HH:mm:ss"), // Tarihi belirtilen formatta alın
       };
 
