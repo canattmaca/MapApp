@@ -138,8 +138,9 @@ const Map = () => {
           </Button>
         </Col>
         {/* Point List */}
-        <ToastContainer position="top-right" autoClose={3000} closeOnClick />
         <Col className="mx-auto">
+          <ToastContainer position="top-right" autoClose={3000} closeOnClick />
+
           <div>
             {points !== null ? (
               <div>
