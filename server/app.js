@@ -41,6 +41,24 @@ app.post("/api/data", (req, res) => {
   });
 });
 
+app.delete("/api/data/:id", (req, res) => {
+  const idToDelete = parseInt(req.params.id);
+  fs.readFile(dbPath, "utf8", (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: "Data not received." });
+    }
+    const jsonData = JSON.parse(data);
+    const updatedData = jsonData.filter((point) => point.id !== idToDelete);
+
+    fs.writeFile(dbPath, JSON.stringify(updatedData), (err) => {
+      if (err) {
+        return res.status(500).json({ error: "Data not updated." });
+      }
+      res.json({ message: "Point deleted successfully." });
+    });
+  });
+});
+
 const port = 3001;
 app.listen(port, () => {
   console.log(`Map App listening on port ${port}`);

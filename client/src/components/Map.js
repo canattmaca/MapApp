@@ -5,6 +5,9 @@ import axios from "axios";
 import { Button, Container, Table, Row, Col } from "react-bootstrap";
 import { format } from "date-fns";
 import L from "leaflet";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BASE_URL = "http://localhost:3001";
 const customIcon = new L.Icon({
@@ -57,16 +60,35 @@ const Map = () => {
       const map = mapRef.current;
       const center = map.getCenter();
       const [lat, lng] = Object.values(center);
+
+      const newPoint = {
+        lat: lat,
+        lng: lng,
+        datetime: format(new Date(), "dd.MM.yyyy HH:mm:ss"), // Tarihi belirtilen formatta alın
+      };
+
+      setPoints((prevPoints) => [...prevPoints, newPoint]);
       axios.post(`${BASE_URL}/api/data`, { lat, lng });
     }
   };
 
   // required function to delete point
-  const handleDeletePoint = (index) => {
-    if (points !== null) {
-      const newPoints = [...points];
-      newPoints.splice(index, 1);
-      setPoints(newPoints);
+  const handleDeletePoint = async (index) => {
+    try {
+      const pointToDelete = points[index];
+      const response = await axios.delete(
+        `${BASE_URL}/api/data/${pointToDelete.id}`
+      );
+
+      if (response.data.message === "Point deleted successfully.") {
+        const newPoints = [...points];
+        newPoints.splice(index, 1);
+        setPoints(newPoints);
+      }
+      toast.success("Point deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting point:", error);
+      toast.error("An error occurred while deleting the point.");
     }
   };
 
@@ -116,6 +138,7 @@ const Map = () => {
           </Button>
         </Col>
         {/* Point List */}
+        <ToastContainer position="top-right" autoClose={3000} closeOnClick />
         <Col className="mx-auto">
           <div>
             {points !== null ? (
